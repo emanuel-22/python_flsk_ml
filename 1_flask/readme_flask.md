@@ -4,19 +4,19 @@ Principalmente las de Flask
 
 # crear el proyecto y configurar el env
 Referencia: https://flask.palletsprojects.com/en/3.0.x/installation/
-``
-$ mkdir app
-$ cd app
-$ python3 -m venv .venv
-``
+```
+mkdir app
+cd app
+python3 -m venv .venv
+```
 
 Activar
 
-``. .venv/bin/activate``
+``source .venv/bin/activate``
 
 Instalar Flask
 
-``pip install Flask``
+``pip install Flask numpy tensorflow``
 
 # Empezamos a programar a app
 
@@ -49,11 +49,11 @@ def create_app(test_config=None):
 
 Corramos la app
 
-`flask --app flaskr run --debug --system-site-package`
+`flask --app flaskr run --debug`
 
 La probamos
 
-`curl http://127.0.0.1:5000/hello `
+`curl http://127.0.0.1:5000/hello`
 
 # Endpoint predict
 
@@ -109,21 +109,28 @@ Una vez que contaos con todos los parámetros, nos disponemos a producir un arra
 ```
         import numpy as np #Manejar los arreglos con los datos
         
-        param=np.array([sueldo_basico,ausencias,cantidad_hijos])
+        array=[sueldo_basico,ausencias,cantidad_hijos]
 ```
 
 Dado que la categoria es un flag, tenemos que armar la cola del vector:
 ```
         match categoria:
-            case "A":
-                param=np.append(param,[1,0,0])
-
-            case "B":
-                param=np.append(param,[0,1,0])
-                          
-            case "C":
-                param=np.append(param,[0,0,1])
+                case "A":
+                    array+= [1,0,0]
+                case "B":
+                    array += [0, 1, 0]
+                case "C":
+                    array+= [0,0,1]
 ```
+
+Finalmente preparamos los parametros para predecir:
+```
+        param = np.array([array]).astype(np.float32)
+
+```
+
+
+
 Finalmente ajustamos el retorno:
 
 ```
